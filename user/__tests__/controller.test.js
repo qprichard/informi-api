@@ -7,6 +7,10 @@ describe('Test the User controller', () => {
     database.query("DELETE FROM `users`;", () => {done(); });
   });
 
+  afterEach(done => {
+    database.query("DELETE FROM `token`;", () => {done(); });
+  });
+
   const controller = new UserController();
 
   describe('Test list method', () => {
@@ -66,18 +70,18 @@ describe('Test the User controller', () => {
   });
 
   describe('Test authenticate method', () => {
-    it('should return a 404 Error after searching', async () => {
+    it('should return a 401 Error after searching', async () => {
       const value = await controller.authenticate({ login: 'test', password: 'test'});
 
       expect(value).to.be.instanceof(Error);
-      expect(value.statusCode).to.equal(404);
+      expect(value.statusCode).to.equal(401);
     });
 
-    it('should return a 404 Error before searching', async () => {
+    it('should return a 401 Error before searching', async () => {
       const value = await controller.authenticate();
 
       expect(value).to.be.instanceof(Error);
-      expect(value.statusCode).to.equal(404);
+      expect(value.statusCode).to.equal(401);
     });
 
     it('should retrieve the authenticated user', async () => {
@@ -85,11 +89,7 @@ describe('Test the User controller', () => {
 
       const user = await controller.authenticate({ login: 'test', password: 'test' });
       expect(user).to.be.an('object');
-      expect(user).to.deep.equal({
-        login: 'test',
-        firstname: 'test',
-        lastname: 'test'
-      })
+      expect(user).to.have.all.keys('login', 'lastname', 'firstname', 'token');
     });
   });
 });
