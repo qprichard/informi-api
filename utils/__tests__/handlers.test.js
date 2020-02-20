@@ -92,7 +92,8 @@ describe('Test databaseHandler', () => {
     it('should success the transaction', () => {
       dbHandler.transaction('INSERT INTO `test` (id) VALUES (3)').then(
         (value) => {
-          expect(value).to.equal(true);
+          expect(value).to.be.an('object');
+          expect(value.affectedRows).to.equal(1);
         }
       )
     });
