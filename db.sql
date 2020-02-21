@@ -14,3 +14,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastname` varchar(50) NOT NULL,
   `firstname` varchar(50) NOT NULL
 );
+
+--
+-- Table structure for table `token`
+--
+CREATE TABLE IF NOT EXISTS `token` (
+  `login` varchar(20) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  FOREIGN KEY (`login`)
+    REFERENCES `users`(`login`)
+    ON DELETE CASCADE
+);

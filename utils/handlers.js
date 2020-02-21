@@ -40,7 +40,7 @@ class databaseHandler {
         if(results && results.length) {
           return resolve(new this._Model(results[0]));
         }
-        
+
         return reject(createError(404));
       });
     });
@@ -60,9 +60,9 @@ class databaseHandler {
           db.commit((err) => {
             if(err) { return reject(err); }
 
-            return resolve(true);
+            return resolve(results);
           });
-          return resolve(true);
+          return resolve(results);
         });
       });
     });

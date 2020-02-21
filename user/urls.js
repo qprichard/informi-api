@@ -1,9 +1,11 @@
 const UserView = require('./view');
+const { authMiddleware } = require('../auth/middlewares');
 
 const urls = [
   {
     method: "GET",
     url: "/users",
+    preHandler: [authMiddleware],
     handler: (...args) => new UserView(...args).list(),
   },
   {
@@ -14,11 +16,13 @@ const urls = [
   {
     method: "GET",
     url: "/users/:login",
+    preHandler: [authMiddleware],
     handler: (...args) => new UserView(...args).get(),
   },
   {
     method: "POST",
     url: "/users",
+    preHandler: [authMiddleware],
     handler: (...args) => new UserView(...args).create()
   }
 ]
