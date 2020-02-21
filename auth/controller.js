@@ -12,7 +12,7 @@ class TokenController {
     this.db = new databaseHandler(Token);
   }
 
-  create(data = {}) {
+  create(data) {
     const { login } = data;
     const expires = moment().add(10, 'minutes').valueOf();
 
@@ -29,7 +29,7 @@ class TokenController {
     });
   }
 
-  delete(data = {}) {
+  delete(data) {
     const { token, login } = data;
     if(login) {
       return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ class TokenController {
     }
   }
 
-  get(data = {}) {
+  get(data) {
     const { token } = data;
     return new Promise((resolve, reject) => {
       this.db.fetchOne(
@@ -58,6 +58,7 @@ class TokenController {
         [token]
       ).then(
         (value) => {
+          value = value.toJson();
           const decoded = jwt.decode(value.token, JWT_SECRET);
 
           return resolve(decoded);
